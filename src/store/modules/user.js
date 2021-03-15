@@ -1,28 +1,53 @@
+const authStatusChoices = {
+    DEFAULT: "",
+    PENDING: "pending",
+    SUCCESS: "success",
+    ERROR: "error"
+};
+
 const state = {
-    authStatusChoices: {
-        DEFAULT: "",
-        PENDING: "pending",
-        SUCCESS: "succes",
-        ERROR: "error"
-    },
     authStatus: authStatusChoices.DEFAULT,
+    loginProviders: {
+        ANONYMOUS: "anonymous",
+        GOOGLE: "google",
+        FACEBOOK: "facebook",
+        GITHUB: "github",
+    },
+    authError: "",
     isLoggedIn: false,
 };
 
 const getters = {
-    isLoggedIn: (state) => state.isLoggedIn,
-    authStatus: (state) => state.authStatus,
-},
+    getIsLoggedIn: (state) => state.isLoggedIn,
+    getAuthStatus: (state) => state.authStatus,
+    getLoginProviders: (state) => state.loginProviders,
+};
 
 const actions = {
-    login({ commit, getters }, user) {
+    login({ commit, getters, rootState }, payload) {
         return new Promise((resolve, reject) => {
             commit("AUTH_REQUEST");
-            firebase.auth().useDeviceLanguage();
-    
-            const provider = new firebase.auth.GoogleAuthProvider();
-    
-            firebase.auth().signInWithRedirect(provider)
+            rootState.firebase.auth().useDeviceLanguage();
+            let provider;
+            let isAnonimous = false;
+            switch (payload.loginProvider) {
+                case "anonymous":
+                    isAnonimous = true;
+                    break;
+                case "google":
+                    provider = new rootState.firebase.auth.GoogleAuthProvider();
+                    break;
+                case "facebook":
+                    provider = new rootState.firebase.auth.FacebookAuthProvider();
+                    break;
+                case "github":
+                    provider = new rootState.firebase.auth.GithubAuthProvider();
+                    break;
+                default:
+                    reject();
+                    break;
+            }
+            isAnonimous ? rootState.firebase.auth().signInAnonymously() : rootState.firebase.auth().signInWithPopup(provider)
             .then(result => {
                 console.log(result);
                 const loggedInFlag = true;
@@ -36,9 +61,9 @@ const actions = {
         });
     },
 
-    logout({ commit }) {
+    logout({ commit, rootState }) {
         return new Promise((resolve, reject) => {
-            firebase
+            rootState.firebase
             .auth()
             .signOut()
             .then(() => {
@@ -50,23 +75,24 @@ const actions = {
             });
         });
     },
-},
+};
 
 const mutations = {
     AUTH_REQUEST(state) {
-        state.authStatus = state.authStatusChoices.PENDING;
+        state.authStatus = authStatusChoices.PENDING;
     },
 
     AUTH_SUCCESS(state) {
-        state.authStatus = state.authStatusChoices.SUCCESS;
+        state.authStatus = authStatusChoices.SUCCESS;
     },
 
     AUTH_ERROR(state, error) {
-        state.authStatus = state.authStatusChoices.ERROR;
+        state.authStatus = authStatusChoices.ERROR;
+        state.authError = error;
     },
 
     AUTH_RESET(state) {
-        state.authStatus = state.authStatusChoices.DEFAULT;
+        state.authStatus = authStatusChoices.DEFAULT;
     },
 
     LOGIN(state) {
@@ -76,7 +102,7 @@ const mutations = {
     LOGOUT(state) {
         state.isLoggedIn = false;
     }
-},
+};
 
 export default {
     state,

@@ -1,8 +1,23 @@
 import { createStore } from "vuex";
+import user from "./modules/user.js";
+import navbar from "./modules/navbar.js";
+import scrollTop from "./modules/scrollTop.js";
+import alert from "./modules/alert.js";
+import confirmation from "./modules/confirmation.js";
+
+import firebase from "firebase";
 
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+    state: {
+        firebase: firebase,
+    },
+    mutations: {},
+    actions: {},
+    modules: {
+    user,
+    navbar,
+    scrollTop,
+    alert,
+    confirmation,
+    }
 });

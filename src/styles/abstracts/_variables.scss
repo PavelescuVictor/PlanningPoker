@@ -1,0 +1,45 @@
+/*************************************************************
+    STRUCTURE VARIABLES
+*************************************************************/
+
+$navbar-height: 10vh;
+$footer-height: 15vh;
+$main-height: 100vh;
+$content-height: calc(#{$main-height} - #{$navbar-height});
+$login-side-width: 55%;
+$login-main-width: 45%;
+$page-content-width: 95vw;
+
+/*************************************************************
+    COLOR VARIABLES
+*************************************************************/
+
+$color-black: #000;
+$color-white: #fff;
+$color-grey-1: #EBEBEB;
+$color-grey-2: #B8B8B8;
+$color-purple: #7C15FF;
+$color-purple-dark: #6F17DE;
+$color-purple-darker:  #36007A;
+$color-red: #FF5A26;
+
+$color-green: #92ff15;
+$color-yellow: #ffd415;
+
+$color-dark: $color-purple-darker;
+$color-light: $color-white;
+
+/*************************************************************
+    PADDING AND MARGIN VARIABLES
+*************************************************************/
+
+/*************************************************************
+    BORDER VARIABLES
+*************************************************************/
+
+/*************************************************************
+    TEXT VARIABLES
+*************************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+$font-default-size: 16px;
+$font-style-1: 'Patua One', cursive;

@@ -1,0 +1,33 @@
+@import '../abstracts/variables.scss';
+
+.button {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: padding .2s ease-in-out, border-radius .2s ease-in-out 0s;
+}
+
+.button:hover {
+    border-radius: 50px;
+}
+
+.button > p {
+    letter-spacing: 0rem;
+}
+
+.button--signin{
+    background: $color-purple;
+    color: $color-light;
+}
+
+.button--reset{
+    background: $color-light;
+    color: $color-purple;
+    box-shadow: 0px 0px 0px 3px $color-purple inset;
+}
+
+.button--hidden {
+    display: none;
+}

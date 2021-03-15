@@ -75,7 +75,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-      if (!store.getters.isLoggedIn) {
+      if (!store.getters.getIsLoggedIn) {
           next({ name: "login" });
       } else {
           next();
@@ -91,13 +91,13 @@ router.beforeEach((to, from, next) => {
       }
   } else if (to.matched.some((record) => record.meta.guest)) {
       if (to.path == "/login") {
-          if (store.getters.isLoggedIn) {
+          if (store.getters.getIsLoggedIn) {
               next({ name: "home" });
           } else {
               next();
           }
       } else {
-          if (!store.getters.isLoggedIn) {
+          if (!store.getters.getIsLoggedIn) {
               next();
           } else {
               next();
