@@ -2,6 +2,8 @@ const { userInfo } = require('os');
 const path = require('path');
 
 module.exports = {
+    publicPath:
+        process.env.NODE_ENV === "production" ? "/PlanningPoker" : "/",
     css: {
         loaderOptions: {
             sass: {
