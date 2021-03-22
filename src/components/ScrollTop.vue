@@ -1,10 +1,9 @@
 <template>
-    <div class="scroll-top">
-        <div class="scroll-top__button" @click="scrollTop" :style="scrollTopStyle">
+    <div id="scrolltop">
+        <div class="scrolltop__button" @click="scrollTop" :class="'scrolltop__button--' + colorScheme">
             <font-awesome-icon
                 icon="chevron-up"
                 class="icon"
-                :style="scrollTopStyle"
             />
         </div>
     </div>
@@ -13,40 +12,33 @@
 import { mapGetters } from "vuex";
 export default {
     name: "ScrollTop",
+    
+    props: ["colorScheme"],
+
     data() {
-        return {
-            scrollTopStyle: {
-                color: "",
-                backgroundColor: "",
-            },
-        };
+        return {};
     },
+
     methods: {
         scrollTop() {
             document.body.scrollTop = 0; // For Safari
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         },
     },
-    mounted: function() {
-        let currentPage = this.$route.name;
-        this.scrollTopStyle.backgroundColor = this.scrollTopColorScheme[
-            currentPage
-        ][0];
-        this.scrollTopStyle.color = this.scrollTopColorScheme[currentPage][1];
-    },
+
     computed: {
         ...mapGetters(["scrollTopColorScheme"]),
     },
 };
 </script>
-<style scoped>
-.scroll-top__button {
+<style lang="scss" scoped>
+
+.scrolltop__button {
     position: fixed;
     width: 50px;
     height: 50px;
-    right: 0;
-    bottom: 0;
-    background: var(--color-white);
+    right: 0px;
+    bottom: 0px;
     margin: 0 1em 1em 0;
     display: flex;
     flex-direction: column;
@@ -58,19 +50,35 @@ export default {
     z-index: 100;
     cursor: pointer;
 }
-.scroll-top__button:hover {
-    border-radius: var(--border-radius-circle);
+
+.scrolltop__button:hover {
+    border-radius: 50px;
 }
-.scroll-top__button:hover > .icon {
+
+.scrolltop__button:hover > .icon {
     transform: rotate(360deg);
 }
+
 .icon {
-    font-size: 2.3rem;
-    color: var(--color-blue);
+    font-size: 2rem;
     transition: transform 0.4s ease-in-out;
 }
 
+.scrolltop__button--light {
+    background: $color-light;
+}
 
+.scrolltop__button--light .icon {
+    color: $color-dark;
+}
+
+.scrolltop__button--dark {
+    background: $color-dark;
+}
+
+.scrolltop__button--dark .icon {
+    color: $color-light;
+}
 /************************
         ANIMATIONS
 *************************/

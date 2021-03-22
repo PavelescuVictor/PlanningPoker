@@ -13,8 +13,20 @@ const state = {
             menuDisplayed: true,
         },
         about: {
-            logo: "dark",
-            menu: "dark",
+            logo: "light",
+            menu: "light",
+            logoDisplayed: true,
+            menuDisplayed: true,
+        },
+        planningpoker: {
+            logo: "light",
+            menu: "light",
+            logoDisplayed: true,
+            menuDisplayed: true,
+        },
+        retrospective: {
+            logo: "light",
+            menu: "light",
             logoDisplayed: true,
             menuDisplayed: true,
         }

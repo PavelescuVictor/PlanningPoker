@@ -12,6 +12,16 @@
                         <a>About</a>
                     </li>
                 </router-link>
+                <router-link to="/planningpoker" v-if="showLoggedOutButtons">
+                    <li>
+                        <a>Planning Poker</a>
+                    </li>
+                </router-link>
+                <router-link to="/retrospective" v-if="showLoggedOutButtons">
+                    <li>
+                        <a>Retrospective</a>
+                    </li>
+                </router-link>
                 <router-link to="/login" v-if="showLoggedOutButtons">
                     <li>
                         <a>Login</a>

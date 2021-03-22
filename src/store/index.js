@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 import user from "./modules/user.js";
 import navbar from "./modules/navbar.js";
-import scrollTop from "./modules/scrollTop.js";
 import alert from "./modules/alert.js";
 import confirmation from "./modules/confirmation.js";
 
@@ -16,7 +15,6 @@ export default createStore({
     modules: {
     user,
     navbar,
-    scrollTop,
     alert,
     confirmation,
     }

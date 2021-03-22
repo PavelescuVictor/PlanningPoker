@@ -49,7 +49,7 @@ export default {
 <style lang="scss" scoped>
 #navbar {
     height: $navbar-height;
-    position: fixed;
+    position: absolute;
     width: 100%;
 }
 .navbar__content {

@@ -65,6 +65,7 @@
 
 <script>
 import AlertBox from "@/components/AlertBox.vue";
+import ConfirmationBox from "@/components/ConfirmationBox.vue";
 import Navbar from "@/components/Navbar.vue";
 import LoginForm from "@/components/LoginForm.vue";
 import { mapGetters, mapActions } from "vuex"
@@ -74,6 +75,7 @@ export default {
 
     components: {
         AlertBox,
+        ConfirmationBox,
         Navbar,
         LoginForm,
     },
@@ -88,50 +90,53 @@ export default {
     },
 
     mounted() {
-        let alert = {
-            message: "Alert Exemple SUCCESS",
-            type: this.getAlertTypes.SUCCESS,
-            time: this.getAlertDefaultTime,
-        }
-        this.addAlert(alert);
+        // let alert = {
+        //     message: "Alert Exemple SUCCESS",
+        //     type: this.getAlertTypes.SUCCESS,
+        //     time: this.getAlertDefaultTime,
+        // }
+        // this.addAlert(alert);
 
-        setTimeout(()=> {
-            alert = {
-                message: "Alert Exemple INFO",
-                type: this.getAlertTypes.INFO,
-                time: 2000,
-            }
-            this.addAlert(alert);
-        }, 2000);
+        // setTimeout(()=> {
+        //     alert = {
+        //         message: "Alert Exemple INFO",
+        //         type: this.getAlertTypes.INFO,
+        //         time: 2000,
+        //     }
+        //     this.addAlert(alert);
+        // }, 2000);
 
-        setTimeout(()=> {
-            alert = {
-                message: "Alert Exemple Error",
-                type: this.getAlertTypes.ERROR,
-                time: 6000,
-            }
-            this.addAlert(alert);
-        }, 3000);
+        // setTimeout(()=> {
+        //     alert = {
+        //         message: "Alert Exemple Error",
+        //         type: this.getAlertTypes.ERROR,
+        //         time: 6000,
+        //     }
+        //     this.addAlert(alert);
+        // }, 3000);
 
-        setTimeout(()=> {
-            alert = {
-                message: "Alert Exemple Warning",
-                type: this.getAlertTypes.WARNING,
-                time: 8000,
-            }
-            this.addAlert(alert);
-        }, 4000);
+        // setTimeout(()=> {
+        //     alert = {
+        //         message: "Alert Exemple Warning",
+        //         type: this.getAlertTypes.WARNING,
+        //         time: 8000,
+        //     }
+        //     this.addAlert(alert);
+        // }, 4000);
     },
 
     computed: {
-        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "getLoginProviders"]),
+        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "getLoginProviders", "getIsLoggedIn"]),
     },
   
     methods: {
-        ...mapActions(["addAlert", "login"]),
+        ...mapActions(["addAlert", "login", "addConfirmation", "resetAlertBox"]),
 
         submitForm: function(e) {
             e.preventDefault();
+            const message = "Confirmation Message!"
+            this.addConfirmation(message);
+
         },
 
         resetForm: function(e) {
@@ -140,34 +145,41 @@ export default {
         },
 
         loginAnonimously: function(e) {
-            let alert = {
-                message: Math.random().toString(36).substr(2, 5),
-                type: this.getAlertTypes.SUCCESS,
-                time: Math.round(Math.random() * (10000 - 2000)) + 2000,
-            }
-            this.addAlert(alert);
-            // const loginProvider = this.getLoginProviders.ANONYMOUS;
-
-            // const user = {
+            // let alert = {
+            //     message: Math.random().toString(36).substr(2, 5),
+            //     type: this.getAlertTypes.SUCCESS,
+            //     time: Math.round(Math.random() * (10000 - 2000)) + 2000,
             // }
+            // this.addAlert(alert);
+            const loginProvider = this.getLoginProviders.ANONYMOUS;
 
-            // this.login({ user, loginProvider })
-            // .then(() => {
-            //     let alert = {
-            //         message: `Logged In ${this.getLoginProviders[loginProvider]}`,
-            //         type: this.getAlertTypes.SUCCESS,
-            //         time: this.getAlertDefaultTime,
-            //     }
-            //     this.addAlert(alert);
-            // })
-            // .catch((error) => {
-            //     let alert = {
-            //         message: error.message,
-            //         type: this.getAlertTypes.ERROR,
-            //         time: this.getAlertDefaultTime,
-            //     }
-            //     this.addAlert(alert);
-            // })
+            const user = {}
+
+            this.login({ user, loginProvider })
+            .then((response) => {
+                let alert = {
+                    message: `Logged In With ${loginProvider[0].toUpperCase() + loginProvider.slice(1,loginProvider.length)}`,
+                    type: this.getAlertTypes.SUCCESS,
+                    time: this.getAlertDefaultTime,
+                }
+                this.resetAlertBox();
+                this.addAlert(alert);
+                if(this.getIsLoggedIn) {
+                    if (this.$route.params.nextUrl != null) {
+                        this.$router.push(this.$route.params.nextUrl);
+                    } else {
+                        this.$router.push("home");
+                    }
+                }
+            })
+            .catch((error) => {
+                let alert = {
+                    message: error.message,
+                    type: this.getAlertTypes.ERROR,
+                    time: this.getAlertDefaultTime,
+                }
+                this.addAlert(alert);
+            })
         }
     }
 }
@@ -308,6 +320,7 @@ export default {
     margin: 10px;
     font-size: 1rem;
     color: $color-dark;
+    align-self: center;
 }
 
 .checkbox__input {
@@ -341,13 +354,13 @@ export default {
 }
 
 .form__buttons button:nth-child(2){
-    grid-rows: 1/2;
-    grid-columns: 1/2;
+    grid-row: 1/2;
+    grid-column: 1/2;
 }
 
 .form__buttons button:nth-child(2) {
-    grid-rows: 1/2;
-    grid-columns: 2/3;
+    grid-row: 1/2;
+    grid-column: 2/3;
 }
 
 .form__buttons button:last-child {

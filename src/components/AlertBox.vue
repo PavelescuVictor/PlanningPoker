@@ -4,6 +4,7 @@
             <transition-group name="alert">
                 <div v-for="alert in getAlertList" :key="alert.id" :class="['alertbox__item','alertbox__item--' + alert.type]" @click="removeAlert(alert)">
                         <p>{{ alert.message }}</p>
+                        <font-awesome-icon class="item__icon" :icon="['fas', 'trash-alt']" />
                 </div>
             </transition-group>
         </div>
@@ -25,11 +26,12 @@ export default {
     },
 
     methods: {
-        ...mapActions(["deleteAlert", "resetAlertLoading"]),
+        ...mapActions(["deleteAlert", "resetAlertBox"]),
 
         removeAlert: function(alert) {
             this.deleteAlert(alert)
         },
+
     },
 
     computed: {
@@ -48,12 +50,20 @@ export default {
 }
 
 .alertbox__list {
+    height: calc(#{$content-height} - #{$navbar-height});
+    width: max-content;
     display: flex;
     flex-direction: column;
+    overflow: scroll;
+}
+
+.alertbox__list::-webkit-scrollbar {
+    display: none;
 }
 
 .alertbox__item {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     width: fit-content;
     font-size: var(--font-size-alertbox);
     margin: .2em 0px;
@@ -68,8 +78,8 @@ export default {
     border-radius: 10px;
     animation: alertbox__slide-down 0.6s ease-in forwards, alertbox__fill 1s ease-out forwards;
     user-select: none;
-    z-index: 10;
     cursor: pointer;
+    transition: margin-left .2s ease-in-out;
 }
 
 .alertbox__item p {
@@ -81,6 +91,28 @@ export default {
     letter-spacing: -10px;
     animation: alertbox__text-fade-in 0.4s ease-out forwards;
     animation-delay: 0.4s;
+    transition: padding .2s ease-in-out;
+}
+
+.alertbox__item:hover p {
+    padding: 0px 25px;
+}
+
+.item__icon {
+    opacity: 0;
+    margin-right: -10px;
+    color: $color-dark;
+    transition: opacity .2s ease-in-out, margin-left .2s ease-in-out, margin-right .2s ease-in-out;
+}
+
+.alertbox__item:hover .item__icon {
+    margin-right: 25px;
+    margin-left: -5px;
+    opacity: 1;
+}
+
+.alertbox__item:hover {
+    margin-left: 10px;
 }
 
 .alertbox__item--success {
@@ -186,7 +218,7 @@ export default {
 }
 
 .alert-enter-active { 
-    transition: opacity 1s;
+    transition: opacity .5s;
 }
 
 .alert-leave {
@@ -194,7 +226,7 @@ export default {
 }
 
 .alert-leave-active {
-    transition: opacity 1s;
+    transition: opacity .5s;
     opacity: 0;
 }
 

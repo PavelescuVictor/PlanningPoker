@@ -15,6 +15,7 @@ const state = {
     },
     authError: "",
     isLoggedIn: false,
+    isAnonymous: false,
 };
 
 const getters = {
@@ -24,15 +25,15 @@ const getters = {
 };
 
 const actions = {
-    login({ commit, getters, rootState }, payload) {
+    login({ commit, rootState, getters }, payload) {
         return new Promise((resolve, reject) => {
             commit("AUTH_REQUEST");
             rootState.firebase.auth().useDeviceLanguage();
             let provider;
-            let isAnonimous = false;
+            let isAnonymous = false;
             switch (payload.loginProvider) {
                 case "anonymous":
-                    isAnonimous = true;
+                    isAnonymous = true;
                     break;
                 case "google":
                     provider = new rootState.firebase.auth.GoogleAuthProvider();
@@ -47,17 +48,28 @@ const actions = {
                     reject();
                     break;
             }
-            isAnonimous ? rootState.firebase.auth().signInAnonymously() : rootState.firebase.auth().signInWithPopup(provider)
-            .then(result => {
-                console.log(result);
-                const loggedInFlag = true;
-                commit("AUTH_SUCCESS");
-                commit("LOGIN", loggedInFlag);
-                resolve(result)
-            })
-            .catch(error => {
-                reject(error);
-            })
+            if(isAnonymous) {
+                rootState.firebase.auth().signInAnonymously()
+                .then(result => {
+                    commit("AUTH_SUCCESS");
+                    commit("LOGIN_ANONYMOUS");
+                    resolve(result);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+            }
+            else {
+                rootState.firebase.auth().signInWithPopup(provider)
+                .then(result => {
+                    commit("AUTH_SUCCESS");
+                    commit("LOGIN");
+                    resolve(result)
+                })
+                .catch(error => {
+                    reject(error);
+                })
+            }
         });
     },
 
@@ -99,8 +111,14 @@ const mutations = {
         state.isLoggedIn = true;
     },
 
+    LOGIN_ANONYMOUS(state) {
+        state.isLoggedIn = true;
+        state.isAnonymous = true;
+    },
+
     LOGOUT(state) {
         state.isLoggedIn = false;
+        state.isAnonymous = false;
     }
 };
 

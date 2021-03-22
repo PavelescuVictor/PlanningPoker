@@ -12,21 +12,21 @@ const getters = {
 
 const actions = {
     addConfirmation({ commit }, message) {
-        commit("add_confirmation", message);
+        commit("ADD_CONFIRMATION", message);
     },
 
     cancelConfirmation({ commit }) {
-        commit("empty_confirmation");
-        commit("cancel_confirmation");
+        commit("EMPTY_CONFIRMATION");
+        commit("CANCEL_CONFIRMATION");
     },
 
     proceedConfirmation({ commit }) {
-        commit("empty_confirmation");
-        commit("proceed_confirmation");
+        commit("EMPTY_CONFIRMATION");
+        commit("PROCEED_CONFIRMATION");
     },
 
     resetConfirmation({ commit }) {
-        commit("reset_confirmation");
+        commit("RESET_CONFIRMATION");
     },
 };
 

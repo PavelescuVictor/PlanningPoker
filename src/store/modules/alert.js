@@ -34,7 +34,12 @@ const actions = {
     },
 
     deleteAlert({ commit }, alert) {
-        commit("DELETE_ALERT", alert)
+        commit("DELETE_ALERT", alert);
+    },
+
+    resetAlertBox({ commit }) {
+        commit("RESET_ALERTLIST");
+        commit("RESET_LATEST_ALERT");
     }
 };
 
@@ -50,6 +55,15 @@ const mutations = {
             if(alert.id === alertToDelete.id) indexAlertToDelete = state.alertList.indexOf(alert);
         });
         if(indexAlertToDelete !== null)state.alertList.splice(indexAlertToDelete, 1)
+    },
+
+    RESET_ALERTLIST(state) {
+        state.alertList = [];
+    },
+
+    RESET_LATEST_ALERT(state) {
+        state.latestAlert = {};
+        console.log(state.alertList);
     }
 };
 
