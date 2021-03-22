@@ -2,10 +2,12 @@
     <div id="login">
         <AlertBox alertBoxType="list"/>
         <ConfirmationBox />
-        <Navbar />
+        <Navbar :menuType="menuType"/>
         <div class="login__content">
             <div class="content__side">
-
+                <img class="svg-middle-right" src="@/assets/svg-middle-right.svg">
+                <img class="svg-top-right" src="@/assets/svg-top-right.svg">
+                <img class="svg-bottom-left" src="@/assets/svg-bottom-left.svg">
             </div>
             <div class="content__main">
                 <div class="main__language-selector">
@@ -86,6 +88,7 @@ export default {
             userEmail: null,
             userPassword: null,
             termsAgreed: false,
+            menuType: 'hamburger',
         }
     },
 
@@ -196,10 +199,37 @@ export default {
 }
 
 .content__side {
+    position: relative;
     width: $login-side-width;
     height: 100%;
     background: $color-purple;
     padding: 5vw;
+    overflow: hidden;
+}
+
+.svg-bottom-left {
+    width: 35vw;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    z-index: 1;
+}
+
+.svg-top-right {
+    width: 50vw;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 1;
+}
+
+.svg-middle-right {
+    height: 100%;
+    position: absolute;
+    right: -3vh;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
 }
 
 .content__main {

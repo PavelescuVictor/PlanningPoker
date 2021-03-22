@@ -1,6 +1,6 @@
 <template>
     <div id="planningpoker">
-        <Navbar/>
+        <Navbar :menuType="list"/>
         <AlertBox alertBoxType="list"/>
         <ConfirmationBox />
         <div class="content"> 

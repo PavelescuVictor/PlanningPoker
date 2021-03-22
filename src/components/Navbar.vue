@@ -4,7 +4,7 @@
             <div v-if="logoDisplayed" class="navbar__logo" :class="[logoStyle === 'light' ? 'navbar__logo--light' : 'navbar__logo--dark']" @click="redirectToHome">
                 <h4>Placeholder</h4>
             </div>
-            <NavbarMenu />
+            <NavbarMenu :menuType="menuType"/>
         </div>
     </div>
 </template>
@@ -15,9 +15,13 @@ import { mapGetters, mapActions } from "vuex"
 
 export default {
     name: "Navbar",
+
+    props: ["menuType"],
+
     components: {
         NavbarMenu,
     },
+
     data() {
         return {
             logoStyle: undefined,
@@ -51,6 +55,7 @@ export default {
     height: $navbar-height;
     position: absolute;
     width: 100%;
+    z-index: 1000;
 }
 .navbar__content {
     height: 100%;

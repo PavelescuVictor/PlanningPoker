@@ -1,6 +1,6 @@
 <template>
     <div id="home">
-        <Navbar/>
+        <Navbar menuType="list"/>
         <AlertBox alertBoxType="list"/>
         <div class="content"> 
             <p>This is the home page!</p>
