@@ -13,6 +13,6 @@ module.exports = {
     "prettier/prettier" : 0,
     "vue/no-unused-components": "off",
     "no-unused-vars": "off",
-    "indent": 2
+    // "indent": 2
   }
 };
