@@ -20,11 +20,9 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Clean install dependencies
-              working-directory: ./
               run: npm ci
 
             - name: Run deploy script
-              working-directory: ./
               run: |
                   git config user.name "PavelescuVictor" && git config user.email "pavelescu.victor97@gmail.com"
                   npm run gh-pages-deploy
