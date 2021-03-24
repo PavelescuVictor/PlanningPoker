@@ -1,5 +1,8 @@
 # planning-poker
 
+## Github Pages Deploy
+https://pavelescuvictor.github.io/PlanningPoker/
+
 ## Project setup
 ```
 npm install
