@@ -1,6 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheck, faTrashAlt, faChevronUp, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTrashAlt, faChevronUp, faBars, faCommentAlt } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle, faFacebook, faGithub } from '@fortawesome/free-brands-svg-icons';
 import {} from '@fortawesome/free-regular-svg-icons';
 
@@ -11,5 +11,6 @@ library.add(faCheck)
 library.add(faTrashAlt)
 library.add(faChevronUp)
 library.add(faBars)
+library.add(faCommentAlt)
 
 export default FontAwesomeIcon

@@ -48,6 +48,7 @@ const actions = {
                 roomType: payload.roomType,
                 connectedUser: [{user: payload.userId, isAdmin: true}],
                 usersSubmittedPoints: [],
+                storyDescription: "",
             })
             .then(results => {
                 resolve(results);
