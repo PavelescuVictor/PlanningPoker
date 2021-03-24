@@ -29,6 +29,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="main__content">
+                    <div class="main__story-icon">
+                        <font-awesome-icon class="icon" :icon="['fas', 'comment-alt']" />
+                    </div>
+                    <div class="main__story">
+                        <p class="story__text"></p>
+                    </div>
+                    <div class="main__cards">
+                        <div class="card__item">
+                            <button class="button button--point" @click="submitForm" type="submit">
+                                <p>Submit</p>
+                            </button>
+                            <button class="button button--point" @click="submitForm" type="submit">
+                                <p>Submit</p>
+                            </button>
+                            <button class="button button--point" @click="submitForm" type="submit">
+                                <p>Submit</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <ScrollTop scrollTopStyle="light"/>
@@ -208,6 +229,11 @@ export default {
         text-align: center;
     }
 
+    .main {
+        width: 100%;
+        min-height: 100%;
+    }
+
     .main__conected-users li{
         list-style-type: none;
     }
@@ -281,4 +307,36 @@ export default {
     .form__buttons button:nth-child(2) {
         grid-column: 2/3;
     }
+
+    .main__content {
+        width: 100%;
+        min-height: 100%;
+        background: black;
+    }
+
+    .login-alternatives__icon {
+        margin: 10px 5px 0px 5px;
+        border: 3px solid $color-dark;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background .2s ease-in-out, margin .2s ease-in-out;
+    }
+
+    .login-alternatives__icon:hover {
+        background: $color-dark;
+        margin: 0px 5px 10px 5px;
+    }
+
+    .login-alternatives__icon .icon {
+        text-align: center;
+        padding: 10px;
+        color: $color-dark;
+        font-size: 3rem;
+        transition: color .2s ease-in-out;
+    }
+
+    .icon:hover {
+        color: $color-light;
+    }
+
 </style>
