@@ -1,6 +1,6 @@
 <template>
     <div id="scrolltop">
-        <div class="scrolltop__button" @click="scrollTop" :class="'scrolltop__button--' + colorScheme">
+        <div class="scrolltop__button" @click="scrollTop" :class="'scrolltop__button--' + scrollTopStyle">
             <font-awesome-icon
                 icon="chevron-up"
                 class="icon"
@@ -9,11 +9,10 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
 export default {
     name: "ScrollTop",
     
-    props: ["colorScheme"],
+    props: ["scrollTopStyle"],
 
     data() {
         return {};
@@ -24,10 +23,6 @@ export default {
             document.body.scrollTop = 0; // For Safari
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         },
-    },
-
-    computed: {
-        ...mapGetters(["scrollTopColorScheme"]),
     },
 };
 </script>
@@ -45,7 +40,7 @@ export default {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    animation: button-rotate 0.6s ease-in-out both;
+    animation: rotate-right-360 0.6s ease-in-out both;
     transition: border-radius 0.2s ease-in-out;
     z-index: 100;
     cursor: pointer;
@@ -79,12 +74,13 @@ export default {
 .scrolltop__button--dark .icon {
     color: $color-light;
 }
+
 /************************
         ANIMATIONS
 *************************/
 
 
-@keyframes button-rotate {
+@keyframes rotate-right-360 {
     0% {
         transform: rotate(0);
     }

@@ -1,8 +1,8 @@
 <template>
     <div id="planningpoker">
-        <Navbar/>
-        <AlertBox alertBoxType="list"/>
+        <AlertBox :alertBoxType="alertBoxType"/>
         <ConfirmationBox />
+        <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle"/>
         <div class="content"> 
             <p>This is the retrospective page!</p>
             <div class="main">
@@ -51,6 +51,10 @@ export default {
         return {
             valid: true,
             name: undefined,
+            alertBoxType: "list",
+            menuType: "list",
+            menuStyle: "light",
+            logoStyle: "light"
         }
     },
 

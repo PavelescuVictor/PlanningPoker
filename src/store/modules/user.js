@@ -16,19 +16,21 @@ const state = {
     authError: "",
     isLoggedIn: false,
     isAnonymous: false,
+    userId: null,
 };
 
 const getters = {
     getIsLoggedIn: (state) => state.isLoggedIn,
     getAuthStatus: (state) => state.authStatus,
     getLoginProviders: (state) => state.loginProviders,
+    getUserId: (state) => state.userId,
 };
 
 const actions = {
     login({ commit, rootState, getters }, payload) {
         return new Promise((resolve, reject) => {
             commit("AUTH_REQUEST");
-            rootState.firebase.auth().useDeviceLanguage();
+            rootState.auth.useDeviceLanguage();
             let provider;
             let isAnonymous = false;
             switch (payload.loginProvider) {
@@ -36,23 +38,23 @@ const actions = {
                     isAnonymous = true;
                     break;
                 case "google":
-                    provider = new rootState.firebase.auth.GoogleAuthProvider();
+                    provider = new rootState.auth.GoogleAuthProvider();
                     break;
                 case "facebook":
-                    provider = new rootState.firebase.auth.FacebookAuthProvider();
+                    provider = new rootState.auth.FacebookAuthProvider();
                     break;
                 case "github":
-                    provider = new rootState.firebase.auth.GithubAuthProvider();
+                    provider = new rootState.auth.GithubAuthProvider();
                     break;
                 default:
                     reject();
                     break;
             }
             if(isAnonymous) {
-                rootState.firebase.auth().signInAnonymously()
+                rootState.auth.signInAnonymously()
                 .then(result => {
                     commit("AUTH_SUCCESS");
-                    commit("LOGIN_ANONYMOUS");
+                    commit("LOGIN_ANONYMOUS", rootState.auth.currentUser.uid);
                     resolve(result);
                 })
                 .catch(error => {
@@ -60,10 +62,10 @@ const actions = {
                 })
             }
             else {
-                rootState.firebase.auth().signInWithPopup(provider)
+                rootState.auth.signInWithPopup(provider)
                 .then(result => {
                     commit("AUTH_SUCCESS");
-                    commit("LOGIN");
+                    commit("LOGIN", rootState.auth.currentUser.uid);
                     resolve(result)
                 })
                 .catch(error => {
@@ -107,13 +109,15 @@ const mutations = {
         state.authStatus = authStatusChoices.DEFAULT;
     },
 
-    LOGIN(state) {
+    LOGIN(state, userId) {
         state.isLoggedIn = true;
+        state.userId = userId;
     },
 
-    LOGIN_ANONYMOUS(state) {
+    LOGIN_ANONYMOUS(state, userId) {
         state.isLoggedIn = true;
         state.isAnonymous = true;
+        state.userId = userId;
     },
 
     LOGOUT(state) {

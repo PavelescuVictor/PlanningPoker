@@ -56,13 +56,12 @@ import { mapGetters, mapActions } from "vuex"
 export default {
     name: "NavbarMenu",
 
-    props: ["menuType"],
+    props: ["menuStyle", "menuType"],
 
     components: {},
 
     data() {
         return {
-            menuStyle: undefined,
             currentPage: undefined,
             showLoggedInButtons: false,
             showLoggedOutButtons: true,
@@ -77,11 +76,10 @@ export default {
         }
 
         this.currentPage = this.$route.name;
-        this.menuStyle = this.navbarColorScheme[this.currentPage].menu;
     },
 
     computed: {
-        ...mapGetters(["getIsLoggedIn", "navbarColorScheme"])
+        ...mapGetters(["getIsLoggedIn"])
     },
 
     methods: {
@@ -164,6 +162,6 @@ export default {
 }
 
 .item__link--dark {
-    color: $color-light;
+    color: $color-dark;
 }
 </style>

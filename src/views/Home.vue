@@ -1,11 +1,11 @@
 <template>
     <div id="home">
-        <Navbar menuType="list"/>
-        <AlertBox alertBoxType="list"/>
+        <AlertBox :alertBoxType="alertBoxType"/>
+        <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle"/>
         <div class="content"> 
             <p>This is the home page!</p>
         </div>
-        <ScrollTop colorScheme="light"/>
+        <ScrollTop :scrollTopStyle="scrollTopStyle"/>
     </div>
 </template>
 
@@ -18,10 +18,21 @@ import ScrollTop from "@/components/ScrollTop.vue";
 
 export default {
     name: "Home",
+
     components: {
         Navbar,
         AlertBox,
         ScrollTop,
+    },
+
+    data() {
+        return {
+            alertBoxType: "list",
+            menuType: "list",
+            menuStyle: "light",
+            logoStyle: "light",
+            scrollTopStyle: "light",
+        }
     }
 };
 </script>

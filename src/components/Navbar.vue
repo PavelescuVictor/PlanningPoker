@@ -1,22 +1,21 @@
 <template>
     <div id="navbar">
         <div class="navbar__content">
-            <div v-if="logoDisplayed" class="navbar__logo" :class="[logoStyle === 'light' ? 'navbar__logo--light' : 'navbar__logo--dark']" @click="redirectToHome">
+            <div v-if="displayLogo" class="navbar__logo" :class="[logoStyle === 'light' ? 'navbar__logo--light' : 'navbar__logo--dark']" @click="redirectToHome">
                 <h4>Placeholder</h4>
             </div>
-            <NavbarMenu :menuType="menuType"/>
+            <NavbarMenu :menuType="menuType" :menuStyle="menuStyle"/>
         </div>
     </div>
 </template>
 
 <script>
 import NavbarMenu from "@/components/NavbarMenu"
-import { mapGetters, mapActions } from "vuex"
 
 export default {
     name: "Navbar",
 
-    props: ["menuType"],
+    props: ["menuType", "menuStyle", "logoStyle", "displayLogo"],
 
     components: {
         NavbarMenu,
@@ -24,20 +23,12 @@ export default {
 
     data() {
         return {
-            logoStyle: undefined,
             currentPage: undefined,
-            logoDisplayed: true,
         }
     },
 
     mounted() {
         this.currentPage = this.$route.name;
-        this.logoDisplayed = this.navbarColorScheme[this.currentPage].displayed;
-        this.logoStyle = this.navbarColorScheme[this.currentPage].logo;
-    },
-
-    computed: {
-        ...mapGetters(["navbarColorScheme"]),
     },
 
     methods: {

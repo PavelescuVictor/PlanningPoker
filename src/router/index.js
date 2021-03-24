@@ -7,6 +7,7 @@ import Logout from "../views/Logout.vue";
 import Profile from "../views/Profile.vue";
 import PlanningPoker from "../views/PlanningPoker.vue";
 import Retro from "../views/Retro.vue";
+import Room from "../views/Room.vue";
 
 import store from "../store/index.js";
 
@@ -93,6 +94,11 @@ const routes = [
             requiresAuth: false,
         },
     },
+
+	{ 	
+		path: '/planningpoker/:roomId', 
+		component: Room
+	}
 	// {
 	//   path: "/admin",
 	//   name: "admin",

@@ -1,8 +1,8 @@
 <template>
     <div id="login">
-        <AlertBox alertBoxType="list"/>
+        <AlertBox :alertBoxType="alertBoxType"/>
         <ConfirmationBox />
-        <Navbar :menuType="menuType"/>
+        <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle" :displayLogo="displayLogo"/>
         <div class="login__content">
             <div class="content__side">
                 <img class="svg-middle-right" src="@/assets/svg-middle-right.svg">
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <ScrollTop />
+        <ScrollTop :scrollTopStyle="scrollTopStyle"/>
         <Footer />
     </div>
 </template>
@@ -88,7 +88,12 @@ export default {
             userEmail: null,
             userPassword: null,
             termsAgreed: false,
-            menuType: 'hamburger',
+            alertBoxType: "list",
+            scrollTopStyle: "dark",
+            menuType: "hamburger",
+            menuStyle: "light",
+            logoStyle: "light",
+            displayLogo: false,
         }
     },
 
@@ -157,7 +162,6 @@ export default {
             const loginProvider = this.getLoginProviders.ANONYMOUS;
 
             const user = {}
-
             this.login({ user, loginProvider })
             .then((response) => {
                 let alert = {
@@ -176,6 +180,7 @@ export default {
                 }
             })
             .catch((error) => {
+                console.log(error.message)
                 let alert = {
                     message: error.message,
                     type: this.getAlertTypes.ERROR,

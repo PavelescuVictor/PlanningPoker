@@ -1,8 +1,8 @@
 <template>
     <div id="planningpoker">
-        <Navbar :menuType="list"/>
-        <AlertBox alertBoxType="list"/>
+        <AlertBox :alertBoxType="alertBoxType"/>
         <ConfirmationBox />
+        <Navbar menuType="list" menuStyle="light" logoStyle="light"/>
         <div class="content"> 
             <p>This is the planning poker page!</p>
             <div class="main">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <ScrollTop colorScheme="light"/>
+        <ScrollTop :scrollTopStyle="scrollTopStyle"/>
     </div>
 </template>
 
@@ -51,20 +51,76 @@ export default {
         return {
             valid: true,
             name: undefined,
+            alertBoxType: "list",
+            scrollTopStyle: "light",
+            menuType: "list",
+            menuStyle: "light",
+            logoStyle: "light",
         }
     },
 
     computed: {
-        ...mapGetters(["getAlertTypes", "getAlertDefaultTime"]),
+        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "isLoggedIn", "isAnonymous", "getUserId", "getRoomTypes", "getRoom"]),
     },
 
     methods: {
-        ...mapActions(["addAlert", "addConfirmation", "resetAlertBox"]),
+        ...mapActions(["addAlert", "addConfirmation", "resetAlertBox", "createRoom", "retrieveRoom", "addUserToRoom"]),
 
-        submitForm: function(e) {
+        submitForm: async function(e) {
             e.preventDefault();
             const message = "Are you sure you want to create this session?";
             this.addConfirmation(message);
+
+            const userId = this.getUserId;
+            const roomType = this.getRoomTypes.PLANNING_POKER;
+
+            await this.createRoom({ userId, roomType })
+            .then(response => {
+                let alert = {
+                    message: `Succesfully created a room`,
+                    type: this.getAlertTypes.SUCCESS,
+                    time: this.getAlertDefaultTime,
+                }
+                this.addAlert(alert);
+                console.log(response);
+            })
+            .catch(error => {
+                let alert = {
+                    message: error.message,
+                    type: this.getAlertTypes.ERROR,
+                    time: this.getAlertDefaultTime,
+                }
+                this.addAlert(alert);
+                console.log(error);
+            })
+
+            const roomId = userId;
+
+            await this.retrieveRoom({ roomId })
+            .then(response => {
+                let alert = {
+                    message: `Succesfully retrieved the room`,
+                    type: this.getAlertTypes.SUCCESS,
+                    time: this.getAlertDefaultTime,
+                }
+                this.addAlert(alert);
+                console.log(response);
+            })
+            .catch(error => {
+                let alert = {
+                    message: error.message,
+                    type: this.getAlertTypes.ERROR,
+                    time: this.getAlertDefaultTime,
+                }
+                this.addAlert(alert);
+                console.log(error);
+            })
+
+            if (this.$route.params.nextUrl != null) {
+                this.$router.push(this.$route.params.nextUrl);
+            } else {
+                this.$router.push(`/planningpoker/${this.getRoom.id}`);
+            }
         },
 
         resetForm: function(e) {
@@ -73,6 +129,7 @@ export default {
     }
 };
 </script>
+
 <style lang="scss" scoped>
     #planningpoker {
         min-height: 100vh;
