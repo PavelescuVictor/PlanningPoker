@@ -127,7 +127,7 @@ export default {
     border-bottom-left-radius: 15px;
     list-style-type: none;
     clip-path: circle(0px at 100% 0px);
-    transition: clip-path 1s ease-in-out;
+    transition: clip-path .4s ease-in-out;
 }
 
 .navbar-menu__hamburger:hover .hamburger__content {
