@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle"/>
+    <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle"  :displayLogo="displayLogo"/>
   </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
       return {
         menuType: "list",
         menuStyle: "dark",
-        logoStyle: "dark"
+        logoStyle: "dark",
+        displayLogo: true,
       }
     }
 }
