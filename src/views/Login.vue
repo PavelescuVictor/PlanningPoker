@@ -45,13 +45,13 @@
                                     </label>
                             </div>
                             <div class="form__buttons">
-                                <button class="button button--signin" @click="submitForm" type="submit" :disabled="!valid">
+                                <button class="form__button button button--signin" @click="submitForm" type="submit" :disabled="!valid">
                                     <p>Sign In</p>
                                 </button>
-                                <button class="button button--reset" @click="resetForm">
+                                <button class="form__button button button--reset" @click="resetForm">
                                     <p>Reset</p>
                                 </button>
-                                <button class="button button--signin " @click="loginAnonimously">
+                                <button class="form__button button button--signin " @click="loginAnonimously">
                                     <p>Sign In Withouth Account</p>
                                 </button>
                             </div>
@@ -386,6 +386,10 @@ export default {
     justify-content: center;
     align-items: center;
     margin: 10px;
+}
+
+.form__button {
+    width: 100%;
 }
 
 .form__buttons button:nth-child(2){

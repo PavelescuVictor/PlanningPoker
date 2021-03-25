@@ -44,14 +44,16 @@ const actions = {
     createRoom({ rootState, state}, payload) {
         return new Promise((resolve, reject) => {
             console.log("create room", payload);
-            rootState.db.collection(state.COLLECTION_NAME).doc(payload.userId).set({
+            rootState.db.collection(state.COLLECTION_NAME).add({
                 roomType: payload.roomType,
                 connectedUser: [{user: payload.userId, isAdmin: true}],
                 usersSubmittedPoints: [],
                 storyDescription: "",
+                active: true,
             })
-            .then(results => {
-                resolve(results);
+            .then(resultRef => {
+                console.log(resultRef.id);
+                resolve(resultRef);
             })
             .catch(error => {
                 reject(error);   

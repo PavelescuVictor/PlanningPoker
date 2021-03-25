@@ -3,19 +3,26 @@
         <AlertBox :alertBoxType="alertBoxType"/>
         <ConfirmationBox />
         <Navbar menuType="list" menuStyle="light" logoStyle="light"/>
-        <div class="content"> 
+        <div class="content__side">
+                <img class="svg-middle-left" src="@/assets/svg-middle-left.svg">
+        </div>
+        <div class="planningpoker__content"> 
             <p>This is the planning poker page!</p>
             <div class="main">
                 <div class="main__form">
                     <div class="form__wrapper">
                         <p class="form__title">Create a Session</p>
                         <div class="form" @submit="login">
-                            <input v-model="name" type="text" placeholder="Name">
+                            <label for="form__title">Session Title</label>
+                            <input id="form__title" v-model="sessionTitle" type="text" placeholder="Session Title">
+                            <label for="form__description">Session Description</label>
+                            <input id="form__description" v-model="sessionDescription" type="textarea" placeholder="Session Description">
+                            <input v-model="userName" type="text" placeholder="User Name">
                             <div class="form__buttons">
-                                <button class="button button--signin" @click="submitForm" type="submit" :disabled="!valid">
+                                <button class="form__button button button--signin" @click="submitForm" type="submit" :disabled="!valid">
                                     <p>Start Session</p>
                                 </button>
-                                <button class="button button--reset" @click="resetForm">
+                                <button class="form__button button button--reset" @click="resetForm">
                                     <p>Reset</p>
                                 </button>
                             </div>
@@ -35,7 +42,7 @@ import Navbar from "@/components/Navbar.vue";
 import AlertBox from "@/components/AlertBox.vue";
 import ConfirmationBox from "@/components/ConfirmationBox.vue";
 import ScrollTop from "@/components/ScrollTop.vue";
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters, mapActions, createLogger } from "vuex"
 
 export default {
     name: "PlanningPoker",
@@ -47,10 +54,17 @@ export default {
         ScrollTop,
     },
 
-    data(){
+    data() {
         return {
             valid: true,
-            name: undefined,
+            userName: undefined,
+            sessionTitle: undefined,
+            sessionDescription: undefined,
+            createSessionDefault: {
+                userName: "Incognito",
+                sessionTitle: "Default Session Title",
+                sessionDescription: "Default Session Description",
+            },
             alertBoxType: "list",
             scrollTopStyle: "light",
             menuType: "list",
@@ -60,19 +74,47 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "isLoggedIn", "isAnonymous", "getUserId", "getRoomTypes", "getRoom"]),
+        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "isLoggedIn", "isAnonymous", "getUserId", "getRoomTypes", "getRoom", "getLoginProviders"]),
     },
 
     methods: {
-        ...mapActions(["addAlert", "addConfirmation", "resetAlertBox", "createRoom", "retrieveRoom", "addUserToRoom"]),
+        ...mapActions(["addAlert", "addConfirmation", "resetAlertBox", "createRoom", "retrieveRoom", "addUserToRoom", "login"]),
 
         submitForm: async function(e) {
             e.preventDefault();
             const message = "Are you sure you want to create this session?";
             this.addConfirmation(message);
 
-            const userId = this.getUserId;
             const roomType = this.getRoomTypes.PLANNING_POKER;
+
+            if(!this.getUserId) {
+                const loginProvider = this.getLoginProviders.ANONYMOUS;
+                const user = {}
+                 await this.login({ user, loginProvider })
+                .then((response) => {
+                    let alert = {
+                        message: `Logged In With ${loginProvider[0].toUpperCase() + loginProvider.slice(1,loginProvider.length)}`,
+                        type: this.getAlertTypes.SUCCESS,
+                        time: this.getAlertDefaultTime,
+                    }
+                    this.resetAlertBox();
+                    this.addAlert(alert);
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                    let alert = {
+                        message: error.message,
+                        type: this.getAlertTypes.ERROR,
+                        time: this.getAlertDefaultTime,
+                    }
+                    this.addAlert(alert);
+                })
+            }
+
+            const userId = this.getUserId;
+            let roomId = "";
+            console.log("User ID", userId);
 
             await this.createRoom({ userId, roomType })
             .then(response => {
@@ -82,7 +124,7 @@ export default {
                     time: this.getAlertDefaultTime,
                 }
                 this.addAlert(alert);
-                console.log(response);
+                roomId = response.id;
             })
             .catch(error => {
                 let alert = {
@@ -93,8 +135,6 @@ export default {
                 this.addAlert(alert);
                 console.log(error);
             })
-
-            const roomId = userId;
 
             await this.retrieveRoom({ roomId })
             .then(response => {
@@ -115,16 +155,18 @@ export default {
                 this.addAlert(alert);
                 console.log(error);
             })
-
+            
             if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);
             } else {
-                this.$router.push(`/planningpoker/${this.getRoom.id}`);
+                this.$router.push(`/planningpoker/${roomId}`);
             }
         },
 
         resetForm: function(e) {
-            this.name = null;
+            this.userName = null;
+            this.sessionTitle = null;
+            this.sessionDescription = null;
         },
     }
 };
@@ -136,7 +178,17 @@ export default {
         background: $color-purple;
     }
 
-    .content {
+    .svg-middle-left {
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .planningpoker__content {
+        position: relative;
+        z-index: 1;
         width: $page-content-width;
         margin: auto;
         padding: $navbar-height 0px;
@@ -206,6 +258,10 @@ export default {
         justify-content: center;
         align-items: center;
         margin: 10px;
+    }
+
+    .form__button {
+        width: 100%;
     }
 
     .form__buttons button:nth-child(2){

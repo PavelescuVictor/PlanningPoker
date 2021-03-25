@@ -31,11 +31,12 @@
     }
 
     a {
-    color: $color-black;
-    text-decoration: none;
+        color: $color-black;
+        text-decoration: none;
     }
 
     #app {
         min-height: 100vh;
     }
+
 </style>

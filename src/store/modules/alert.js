@@ -63,7 +63,6 @@ const mutations = {
 
     RESET_LATEST_ALERT(state) {
         state.latestAlert = {};
-        console.log(state.alertList);
     }
 };
 
