@@ -2,7 +2,7 @@
     <div id="planningpoker">
         <AlertBox :alertBoxType="alertBoxType"/>
         <ConfirmationBox />
-        <Navbar menuType="list" menuStyle="light" logoStyle="light"/>
+        <Navbar menuType="list" menuStyle="light" logoStyle="light"  :displayLogo="displayLogo"/>
         <div class="content__side">
                 <img class="svg-middle-left" src="@/assets/svg-middle-left.svg">
         </div>
@@ -66,6 +66,7 @@ export default {
                 sessionDescription: "Default Session Description",
             },
             alertBoxType: "list",
+            displayLogo: true,
             scrollTopStyle: "light",
             menuType: "list",
             menuStyle: "light",

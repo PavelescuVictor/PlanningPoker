@@ -1,7 +1,7 @@
 <template>
     <div id="home">
         <AlertBox :alertBoxType="alertBoxType"/>
-        <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle"/>
+        <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle"  :displayLogo="displayLogo"/>
         <div class="content__side">
                 <img class="svg-middle-left" src="@/assets/svg-middle-left.svg">
                 <img class="svg-top-right-middle" src="@/assets/svg-top-right-middle.svg">
@@ -44,6 +44,7 @@ export default {
     data() {
         return {
             alertBoxType: "list",
+            displayLogo: true,
             menuType: "list",
             menuStyle: "light",
             logoStyle: "light",
