@@ -1,9 +1,12 @@
 <template>
-    <div id="planningpoker">
+    <div id="retro">
         <AlertBox :alertBoxType="alertBoxType"/>
         <ConfirmationBox />
         <Navbar :menuType="menuType" :menuStyle="menuStyle" :logoStyle="logoStyle"/>
-        <div class="content"> 
+        <div class="content__side">
+                <img class="svg-middle-left" src="@/assets/svg-middle-left.svg">
+        </div>
+        <div class="retro__content"> 
             <p>This is the retrospective page!</p>
             <div class="main">
                 <div class="main__form">
@@ -12,10 +15,10 @@
                         <div class="form" @submit="login">
                             <input v-model="name" type="text" placeholder="Name">
                             <div class="form__buttons">
-                                <button class="button button--signin" @click="submitForm" type="submit" :disabled="!valid">
+                                <button class="form__button button button--signin" @click="submitForm" type="submit" :disabled="!valid">
                                     <p>Start Session</p>
                                 </button>
-                                <button class="button button--reset" @click="resetForm">
+                                <button class="form__button button button--reset" @click="resetForm">
                                     <p>Reset</p>
                                 </button>
                             </div>
@@ -78,12 +81,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-    #planningpoker {
+    #retro {
         min-height: 100vh;
         background: $color-purple;
     }
 
-    .content {
+    .svg-middle-left {
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .retro__content {
+        position: relative;
+        z-index: 1;
         width: $page-content-width;
         margin: auto;
         padding: $navbar-height 0px;
@@ -145,7 +158,6 @@ export default {
         outline: none;
     }
 
-
     .form__buttons {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -153,6 +165,10 @@ export default {
         justify-content: center;
         align-items: center;
         margin: 10px;
+    }
+
+    .form__button {
+        width: 100%;
     }
 
     .form__buttons button:nth-child(2){

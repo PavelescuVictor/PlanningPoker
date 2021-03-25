@@ -7,10 +7,10 @@
             </p>
             <div class="confirmationbox__buttons">
                 <div class="buttons__content">
-                    <div class="button button--confirm" @click="proceed">
+                    <div class="confirmation__button button button--confirm" @click="proceed">
                         <p>Proceed</p>
                     </div>
-                    <div class="button button--confirm-reset" @click="cancel">
+                    <div class="confirmation__button button button--confirm-reset" @click="cancel">
                         <p>Cancel</p>
                     </div>
                 </div>
@@ -98,6 +98,10 @@ export default {
 }
 
 .confirmationbox__buttons {
+    width: 100%;
+}
+
+.confirmation__button {
     width: 100%;
 }
 

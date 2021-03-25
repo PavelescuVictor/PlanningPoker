@@ -47,6 +47,7 @@ export default {
     left: 5px;
     width: fit-content;
     height: fit-content;
+    z-index: 1000;
 }
 
 .alertbox__list {
