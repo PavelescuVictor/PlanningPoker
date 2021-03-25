@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <ScrollTop colorScheme="light"/>
+        <ScrollTop :scrollTopStyle="scrollTopStyle"/>
     </div>
 </template>
 
@@ -53,11 +53,15 @@ export default {
     data(){
         return {
             valid: true,
-            name: undefined,
+            userName: undefined,
+            createSessionDefault: {
+                userName: "Incognito",
+            },
             alertBoxType: "list",
+            scrollTopStyle: "light",
             menuType: "list",
             menuStyle: "light",
-            logoStyle: "light"
+            logoStyle: "light",
         }
     },
 
