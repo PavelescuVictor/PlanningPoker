@@ -277,28 +277,29 @@ export default {
 }
 
 .login-alternatives__icon {
-    margin: 10px 5px 0px 5px;
-    border: 3px solid $color-dark;
-    border-radius: 50%;
+    padding: 10px 5px 0px 5px;
     cursor: pointer;
-    transition: background .2s ease-in-out, margin .2s ease-in-out;
+    transition: padding .2s ease-in-out;
 }
 
 .login-alternatives__icon:hover {
+    padding: 0px 5px 10px 5px;
+}
+
+.login-alternatives__icon:hover .icon {
     background: $color-dark;
-    margin: 0px 5px 10px 5px;
+    color: $color-light;
 }
 
 .login-alternatives__icon .icon {
     text-align: center;
     padding: 10px;
     color: $color-dark;
-    font-size: 3rem;
+    font-size: 3.4rem;
     transition: color .2s ease-in-out;
-}
-
-.icon:hover {
-    color: $color-light;
+    border: 3px solid $color-dark;
+    border-radius: 50%;
+    transition: background .2s ease-in-out;
 }
 
 .main__login-alternatives .icon:nth-child(2) {
