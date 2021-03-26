@@ -29,7 +29,6 @@ const actions = {
 
     createRoom({ rootState, state}, payload) {
         return new Promise((resolve, reject) => {
-            console.log("create room", payload);
             rootState.db.collection(state.COLLECTION_NAME).add({
                 roomType: payload.roomType,
                 connectedUsers: {}[payload.userId] = { userName: payload.userName, isAdmin: true },
@@ -37,10 +36,11 @@ const actions = {
                 sessionDescription: payload.sessionDescription,
                 sessionEntries: {},
                 isActive: true,
-                createdAt: rootState.firebase.firestore.FieldValue.serverTimestamp,
+                createdAt: rootState.firebase.firestore.FieldValue.serverTimestamp(),
                 createdBy: {}[payload.userId] = payload.userName,
             })
             .then(roomRef => {
+                console.log("createRoom", roomRef);
                 resolve(roomRef);
             })
             .catch(error => {
@@ -135,7 +135,7 @@ const actions = {
     addUserToRoom({ state, rootState }, payload) {
         return new Promise((resolve, reject) => {
             rootState.db.collection(state.COLLECTION_NAME).doc(payload.roomId).update({
-                [`connectedUser.${payload.userId}`]: { userName: payload.userName, isAdmin: true },
+                [`connectedUser.${payload.userId}`]: { userName: payload.userName, isAdmin: false },
             })
             .then(results => {
                 console.log("addUserToRoom", results)

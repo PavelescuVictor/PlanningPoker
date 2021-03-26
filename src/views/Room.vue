@@ -75,8 +75,6 @@ export default {
         ScrollTop,
     },
 
-    props: ["roomType", "roomData"],
-
     data() {
         return {
             alertBoxType: "list",
@@ -90,29 +88,30 @@ export default {
     },
 
     async mounted() {
-
-        const loginProvider = this.getLoginProviders.ANONYMOUS;
-
-        const user = {}
-        await this.login({ user, loginProvider })
-        .then((response) => {
-            let alert = {
-                message: `Logged In With ${loginProvider[0].toUpperCase() + loginProvider.slice(1,loginProvider.length)}`,
-                type: this.getAlertTypes.SUCCESS,
-                time: this.getAlertDefaultTime,
-            }
-            this.resetAlertBox();
-            this.addAlert(alert);
-        })
-        .catch((error) => {
-            console.log(error.message)
-            let alert = {
-                message: error.message,
-                type: this.getAlertTypes.ERROR,
-                time: this.getAlertDefaultTime,
-            }
-            this.addAlert(alert);
-        })
+        if(!this.getIsLoggedIn) {
+            const loginProvider = this.getLoginProviders.ANONYMOUS;
+            const user = {}
+            await this.login({ user, loginProvider })
+            .then((response) => {
+                let alert = {
+                    message: `Logged In With ${loginProvider[0].toUpperCase() + loginProvider.slice(1,loginProvider.length)}`,
+                    type: this.getAlertTypes.SUCCESS,
+                    time: this.getAlertDefaultTime,
+                }
+                this.resetAlertBox();
+                this.addAlert(alert);
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error.message)
+                let alert = {
+                    message: error.message,
+                    type: this.getAlertTypes.ERROR,
+                    time: this.getAlertDefaultTime,
+                }
+                this.addAlert(alert);
+            })
+        }
 
         const userId = this.getUserId;
         const roomId = this.$route.params.roomId;
@@ -140,7 +139,13 @@ export default {
             console.log(error);
         })
 
-        await this.addUserToRoom({ roomId, userId })
+        const payload = {
+            roomId,
+            userId,
+            userName: "Default User Name",
+        }
+
+        await this.addUserToRoom(payload)
         .then(response => {
             let alert = {
                 message: `Succesfully retrieved the room`,
@@ -162,7 +167,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "isLoggedIn", "isAnonymous", "getUserId", "getRoom", "getLoginProviders"]),
+        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "isLoggedIn", "isAnonymous", "getUserId", "getIsLoggedIn", "getRoom", "getLoginProviders"]),
     
         connectedUsers: function() {
             return this.getRoom ? this.getRoom.data().connectedUser : [];
