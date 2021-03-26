@@ -75,7 +75,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "isLoggedIn", "isAnonymous", "getUserId", "getRoomTypes", "getRoom", "getLoginProviders"]),
+        ...mapGetters(["getAlertTypes", "getAlertDefaultTime", "isLoggedIn", "isAnonymous", "getUserId", "getIsLoggedIn", "getRoomTypes", "getRoom", "getLoginProviders"]),
     },
 
     methods: {
@@ -88,10 +88,10 @@ export default {
 
             const roomType = this.getRoomTypes.PLANNING_POKER;
 
-            if(!this.getUserId) {
+            if(!this.getIsLoggedIn) {
                 const loginProvider = this.getLoginProviders.ANONYMOUS;
                 const user = {}
-                 await this.login({ user, loginProvider })
+                await this.login({ user, loginProvider })
                 .then((response) => {
                     let alert = {
                         message: `Logged In With ${loginProvider[0].toUpperCase() + loginProvider.slice(1,loginProvider.length)}`,
@@ -117,7 +117,15 @@ export default {
             let roomId = "";
             console.log("User ID", userId);
 
-            await this.createRoom({ userId, roomType })
+            const payload = {
+                roomType,
+                userId,
+                userName: this.userName ? this.userName : this.createSessionDefault.userName,
+                sessionTitle: this.sessionTitle ? this.sessionTitle : this.createSessionDefault.sessionTitle,
+                sessionDescription: this.sessionDescription ? this.sessionDescription : this.createSessionDefault.sessionDescription,
+            };
+
+            await this.createRoom(payload)
             .then(response => {
                 let alert = {
                     message: `Succesfully created a room`,
