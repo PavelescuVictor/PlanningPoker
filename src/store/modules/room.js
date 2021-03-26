@@ -37,7 +37,7 @@ const actions = {
                 sessionDescription: payload.sessionDescription,
                 sessionEntries: {},
                 isActive: true,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp,
+                createdAt: rootState.firebase.firestore.FieldValue.serverTimestamp,
                 createdBy: {}[payload.userId] = payload.userName,
             })
             .then(roomRef => {
@@ -54,7 +54,6 @@ const actions = {
             rootState.db.collection(state.COLLECTION_NAME).doc(payload.roomId).get()
             .then((results) => {
                 console.log("retrieveRoom", results);
-                commit("RETRIEVE_ROOM", results)
                 resolve(results);
             })
             .catch((error) => {
@@ -68,7 +67,6 @@ const actions = {
             rootState.db.collection(state.COLLECTION_NAME).get()
             .then((results) => {
                 console.log("retrieveUserRooms", results);
-                commit("RETRIEVE_ROOM", results)
                 resolve(results);
             })
             .catch((error) => {
@@ -82,7 +80,6 @@ const actions = {
             rootState.db.collection(state.COLLECTION_NAME).doc(payload.roomId).delete()
             .then((results) => {
                 console.log("deleteRoom", results);
-                commit("RETRIEVE_ROOM", results)
                 resolve(results);
             })
             .catch((error) => {
@@ -96,7 +93,6 @@ const actions = {
             rootState.db.collection(state.COLLECTION_NAME).delete()
             .then((results) => {
                 console.log("deleteUserRooms", results);
-                commit("RETRIEVE_ROOM", results)
                 resolve(results);
             })
             .catch((error) => {
@@ -155,7 +151,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             console.log("add user", payload);
             rootState.db.collection(state.COLLECTION_NAME).doc(payload.roomId).update({
-                [`connectedUser.${payload.userId}`]: firebase.firestore.FieldValue.delete(),
+                [`connectedUser.${payload.userId}`]: rootState.firebase.firestore.FieldValue.delete(),
             })
             .then(results => {
                 console.log("removeUserFromRoomn", results);
@@ -192,7 +188,7 @@ const actions = {
                     sessionEntryDescription: payload.sessionDescription,
                     sessionEntrySubmittedPoints: {},
                     isActive: true,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp,
+                    createdAt: rootState.firebase.firestore.FieldValue.serverTimestamp,
                     createdBy: payload.createdBy,
                 }
             })
@@ -211,7 +207,6 @@ const actions = {
             rootState.db.collection(state.COLLECTION_NAME).doc(payload.roomId).get()
             .then((results) => {
                 console.log("retrieveRoom", results);
-                commit("RETRIEVE_ROOM", results)
                 resolve(results);
             })
             .catch((error) => {
@@ -272,7 +267,6 @@ const actions = {
             rootState.db.collection(state.COLLECTION_NAME).doc(payload.roomId).delete()
             .then((results) => {
                 console.log("deleteSessionEntry", results);
-                commit("RETRIEVE_ROOM", results)
                 resolve(results);
             })
             .catch((error) => {
