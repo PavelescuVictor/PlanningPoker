@@ -10,7 +10,13 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": []
+    "redirects": [],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   },
   "storage": {
     "rules": "storage.rules"
