@@ -13,10 +13,10 @@ const state = {
         FACEBOOK: "facebook",
         GITHUB: "github",
     },
-    authError: "",
+    authError: undefined,
     isLoggedIn: false,
     isAnonymous: false,
-    userId: null,
+    userId: undefined,
 };
 
 const getters = {
@@ -24,6 +24,7 @@ const getters = {
     getAuthStatus: (state) => state.authStatus,
     getLoginProviders: (state) => state.loginProviders,
     getUserId: (state) => state.userId,
+    getIsAnonymouse: (state) => state.isAnonymous,
 };
 
 const actions = {
